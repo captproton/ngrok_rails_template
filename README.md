@@ -21,7 +21,7 @@ You'll need the following installed to run the template successfully:
 from github:
 
 ```bash
-rails app:template LOCATION=https://raw.githubusercontent.com/captproton/ngrok_rails_template/master/template.rb
+rails app:template LOCATION=https://raw.githubusercontent.com/captproton/ngrok_rails_template/main/template.rb
 ```
 
 Or if you have downloaded this repo, you can reference template.rb locally:
