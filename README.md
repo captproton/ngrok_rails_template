@@ -32,7 +32,11 @@ rails app:template LOCATION=ngrok_rails_template/template.rb
 
 - Run `gem install bundler` from the root of your app
 
-You should see foreman star four processes
+#### Start your rails app
+
+- Run `foreman start` from the root of your app
+
+You should see foreman start four processes
 
 - web (rails)
 - worker (sidekiq)
