@@ -39,10 +39,10 @@ def request_and_keep_app_port
 end
 
 def set_name_instance_vars
-  @app_subdomain      = @subdomain
-  @app_tunnel_name    = "#{@app_subdomain}rails"
+  @app_subdomain      = @subdomain "#{@subdomain}rails"
+  @app_tunnel_name    = "#{@app_subdomain}"
 
-  @asset_subdomain    = "#{@subdomain}"  
+  @asset_subdomain    = "#{@subdomain}webpack"  
   @asset_tunnel_name  = "#{@asset_subdomain}webpack"
   @asset_tunnel_uri   = "#{@asset_subdomain}.ngrok.io"
   @ngrok_dashboard    = "http://127.0.0.1:4040/"
@@ -131,13 +131,13 @@ def add_ngrok_tunnel_config
                         "    addr\: #{rails_tunnel_addr}" + "\n" +
                         '    proto: http' + "\n" +
                         '    bind_tls: true' + "\n" +
-                        "    subdomain\: #{rails_subdomain}rails" + "\n"
+                        "    subdomain\: #{rails_subdomain}" + "\n"
 
     webpack_config =    "  #{webpack_tunnel_name}\:" + "\n" + 
                         "    addr\: 3035" + "\n" +
                         '    proto: http' + "\n" +
                         '    bind_tls: true' + "\n" +
-                        "    subdomain\: #{webpack_subdomain}webpack" + "\n"
+                        "    subdomain\: #{webpack_subdomain}" + "\n"
     
     append_to_file '~/.ngrok2/ngrok.yml', rails_config
     append_to_file '~/.ngrok2/ngrok.yml', webpack_config
