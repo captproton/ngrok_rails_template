@@ -39,10 +39,10 @@ def request_and_keep_app_port
 end
 
 def set_name_instance_vars
-  @app_subdomain      = @subdomain
-  @app_tunnel_name    = "#{@app_subdomain}rails"
+  @app_subdomain      = @subdomain "#{@subdomain}rails"
+  @app_tunnel_name    = "#{@app_subdomain}"
 
-  @asset_subdomain    = "#{@subdomain}"  
+  @asset_subdomain    = "#{@subdomain}webpack"  
   @asset_tunnel_name  = "#{@asset_subdomain}webpack"
   @asset_tunnel_uri   = "#{@asset_subdomain}.ngrok.io"
   @ngrok_dashboard    = "http://127.0.0.1:4040/"
