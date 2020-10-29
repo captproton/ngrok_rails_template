@@ -70,6 +70,7 @@ def add_gems_to_gemfile
     gems        = gems_array.join("\n")
     # append $ASSETS_TUNNEL, and $APP_TUNNEL and $APP_PORT
     append_to_file 'Gemfile'
+    append_to_file '.env', gems
 
 end
 
