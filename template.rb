@@ -62,15 +62,18 @@ end
 
 def add_gems_to_gemfile
       # add rack-cors dotenv-rails
+      gems = "\n"
+      gems << "gem 'rack-cors', '~> 1.1', '>= 1.1.1' #ngrok testing"
+      gems << "\n"
+      gems << "gem 'dotenv-rails', '~> 2.7', '>= 2.7.6', groups: [:development, :test] #ngrok testing"
     gems_array  = [" ",
                   "gem 'rack-cors', '~> 1.1', '>= 1.1.1' #ngrok testing", 
                   "gem 'dotenv-rails', '~> 2.7', '>= 2.7.6', groups: [:development, :test] #ngrok testing",
                   " "
                   ]
     gems        = gems_array.join("\n")
-    # append $ASSETS_TUNNEL, and $APP_TUNNEL and $APP_PORT
-    append_to_file 'Gemfile'
-    append_to_file '.env', gems
+
+    append_to_file 'Gemfile', gems
 
 end
 
