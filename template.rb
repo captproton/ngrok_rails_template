@@ -131,13 +131,13 @@ def add_ngrok_tunnel_config
                         "    addr\: #{rails_tunnel_addr}" + "\n" +
                         '    proto: http' + "\n" +
                         '    bind_tls: true' + "\n" +
-                        "    subdomain\: #{rails_subdomain}" + "\n"
+                        "    subdomain\: #{rails_subdomain}rails" + "\n"
 
     webpack_config =    "  #{webpack_tunnel_name}\:" + "\n" + 
                         "    addr\: 3035" + "\n" +
                         '    proto: http' + "\n" +
                         '    bind_tls: true' + "\n" +
-                        "    subdomain\: #{webpack_subdomain}" + "\n"
+                        "    subdomain\: #{webpack_subdomain}webpack" + "\n"
     
     append_to_file '~/.ngrok2/ngrok.yml', rails_config
     append_to_file '~/.ngrok2/ngrok.yml', webpack_config
