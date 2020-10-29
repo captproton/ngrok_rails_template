@@ -40,17 +40,17 @@ end
 
 def set_name_instance_vars
   @app_subdomain      = @subdomain
-  @app_tunnel_name    = "#{@app_subdomain}-rails"
+  @app_tunnel_name    = "#{@app_subdomain}rails"
 
   @asset_subdomain    = "#{@subdomain}"  
-  @asset_tunnel_name  = "#{@asset_subdomain}-webpack"
+  @asset_tunnel_name  = "#{@asset_subdomain}webpack"
   @asset_tunnel_uri   = "#{@asset_subdomain}.ngrok.io"
   @ngrok_dashboard    = "http://127.0.0.1:4040/"
 end
 def add_env_vars
     run "touch .env"
     app_port = @app_port || '5000'
-    # env_vars    
+    # env_vars
     env_vars_array = [" ", "APP_TUNNEL=#{@app_tunnel_name}", "APP_PORT=#{@app_port}", "ASSETS_TUNNEL=#{@asset_tunnel_name}", "ASSET_TUNNEL_URI=#{@asset_tunnel_uri} ", " "
                 ]
     env_vars = env_vars_array.join("\n")
@@ -60,11 +60,26 @@ def add_env_vars
 
 end
 
-def replace_files
-    remove_file "config/webpack/development.js"
-    remove_file "Procfile.dev"
+def add_gems_to_gemfile
+      # add rack-cors dotenv-rails
+    gems_array  = [" ",
+                  "gem 'rack-cors', '~> 1.1', '>= 1.1.1' #ngrok testing", 
+                  "gem 'dotenv-rails', '~> 2.7', '>= 2.7.6', groups: [:development, :test] #ngrok testing",
+                  " "
+                  ]
+    gems        = gems_array.join("\n")
+    # append $ASSETS_TUNNEL, and $APP_TUNNEL and $APP_PORT
+    append_to_file 'Gemfile'
 
-    copy_file   "config/webpack/development.js"
+end
+
+def add_rack_cors_initializer
+  remove_file "config/initializers/cors.rb"
+  copy_file   "config/initializers/cors.rb"                
+end
+
+def replace_files
+    remove_file "Procfile.dev"
     copy_file   "Procfile.dev"
 end
 
@@ -140,7 +155,7 @@ end
 # Main setup
 # 4 files to change
 # * Procfile.dev
-# * config/webpack/development.js
+# * config/initializers/cors.rb
 # * .env
 # * ~/.ngrok2/ngrok.yml
 
@@ -151,16 +166,23 @@ request_and_keep_subdomain
 request_and_keep_app_port
 set_name_instance_vars
 
+
 say "** setting enviromental vars!"
 add_env_vars
+say "** adding gems for CORS and dotenv vars"
+add_gems_to_gemfile
+say "** adding initializer for CORS settings (you may want to adjust)"
+add_rack_cors_initializer
 say "** adding tunnels to ngrok"
 add_ngrok_tunnel_config
-say "** updating Procfile.dev and webpack config for ngrok"
+say "** updating Procfile.dev and webpack config, including CORS for ngrok"
 replace_files
 say "** updating webpack dev settings for ngrok"
 insert_host_config_regex
-add_dotenv_with_yarn
-
+## Grand Finale
 say "Your new ngrok web address is #{@subdomain}.ngrok.io"
+say "Your new ngrok webpack address is #{@asset_tunnel_uri}"
 say "Your ngrok dashboard is at #{@ngrok_dashboard}"
+say "#####"
+say "REMEMBER to `bundle install` your new gems. "
 say "Thanks, come again!"
